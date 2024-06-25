@@ -4,6 +4,7 @@ import 'package:my_task_app/providers/auth_provider.dart';
 import 'package:my_task_app/providers/task_provider.dart';
 import 'package:my_task_app/screens/home_screen.dart';
 import 'package:my_task_app/screens/signin_screen.dart';
+import 'package:my_task_app/screens/signup_picture_screen.dart';
 import 'package:my_task_app/screens/signup_screen.dart';
 import 'package:my_task_app/screens/task_details_screen.dart';
 import 'package:my_task_app/screens/task_form_screen.dart';
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         routes: { 
           Routes.SIGNIN: (context) => SigninScreen(),
           Routes.SIGNUP: (context) => SignupScreen(),
+          Routes.SIGNUPPICTURE: (context) => const SignUpPictureScreen(),
           Routes.HOME: (context) => const HomeScreen(),
           Routes.TASK_FORM_SCREEN: (context) => const TaskFormScreen(),
           Routes.TASK_DETAILS_SCREEN: (context) =>  TaskDetailsScreen(),

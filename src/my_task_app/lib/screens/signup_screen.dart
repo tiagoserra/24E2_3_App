@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:my_task_app/providers/auth_provider.dart';
 import 'package:provider/provider.dart';
 import '../routes.dart';
 
 class SignupScreen extends StatefulWidget {
+  
   SignupScreen({super.key});
 
   @override
@@ -16,9 +18,6 @@ class _SignupScreenState extends State<SignupScreen> {
   String? imagePath;
   String? email;
   String? password;
-
-  // final emailController = TextEditingController();
-  // final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +31,36 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              imagePath != null
+                  ? Stack(
+                      children: [
+                        Image.file(
+                          width: 200,
+                          height: 200,
+                          File(imagePath!),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              imagePath = null;
+                            });
+                          },
+                          icon: const Icon(Icons.delete),
+                        )
+                      ],
+                    )
+                  : IconButton(
+                      onPressed: () async {
+                        Object? result = await Navigator.of(context)
+                            .pushNamed(Routes.SIGNUPPICTURE);
+                        if (result != null) {
+                          setState(() {
+                            imagePath = result as String;
+                          });
+                        }
+                      },
+                      icon: const Icon(Icons.camera_alt),
+                    ),
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 30,
@@ -41,6 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   onChanged: (value) {
                     email = value;
                   },
+                  key: const Key('textFieldSigninEmail'),
                   decoration: const InputDecoration(
                       icon: Icon(Icons.email),
                       hintText: 'Informe o email para cadastro.',
@@ -62,7 +92,7 @@ class _SignupScreenState extends State<SignupScreen> {
                   onChanged: (value) {
                     password = value;
                   },
-                  // controller: ,
+                  key: const Key('textFieldSigninSenha'),
                   decoration: const InputDecoration(
                       icon: Icon(Icons.key),
                       hintText: 'Informe uma senha para cadastro.',
@@ -79,7 +109,20 @@ class _SignupScreenState extends State<SignupScreen> {
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     authProvider.signUp(email!, password!).then((sucesso) {
-                      Navigator.pushReplacementNamed(context, Routes.HOME);
+                      if (sucesso) {
+                        // try {
+                        //   var storage = FirebaseStorage.instance;
+                        //   var reference = storage.ref();
+                        //   var fileReference = reference.child("$email.jpg");
+                        //   var imageFile = File(imagePath!);
+                        //   fileReference.putFile(imageFile);
+                        // } on FirebaseException catch (e) {
+                        //   print('Erro FirebaseStorage: ${e.message}');
+                        // }
+                        Navigator.pushReplacementNamed(context, Routes.HOME);
+                      } else {
+                        // Pegar a mensagem de erro
+                      }
                     });
                   }
                 },

@@ -23,13 +23,6 @@ class TaskDetailsScreen extends StatelessWidget {
         title: Text(screenDetailsName),
         centerTitle: true,
         actions: [
-          // IconButton(
-          //   icon: const Icon(Icons.edit),
-          //   tooltip: 'Editar tarefa',
-          //   onPressed: () {
-                
-          //   },
-          // ),
           IconButton(
             icon: const Icon(Icons.delete_forever),
             tooltip: 'remover tarefa',
